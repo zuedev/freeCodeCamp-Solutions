@@ -39,6 +39,7 @@ jobs:
 
           PROJECT_DIRS=(
             "front-end-development-libraries/build-a-random-quote-machine"
+            "front-end-development-libraries/build-a-markdown-previewer"
           )
 
           for PROJECT_DIR in "${PROJECT_DIRS[@]}"; do
