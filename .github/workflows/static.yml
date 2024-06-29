@@ -37,8 +37,6 @@ jobs:
         run: |
           ROOT_DIR=$(pwd)
 
-          mkdir gh-pages-upload
-
           PROJECT_DIRS=(
             "front-end-development-libraries/build-a-random-quote-machine"
           )
@@ -51,21 +49,6 @@ jobs:
             cp -r build/* $ROOT_DIR/gh-pages-upload/$PROJECT_DIR
             cd $ROOT_DIR
           done
-
-          echo <<<EOF
-          <!DOCTYPE html>
-          <html>
-            <head>
-              <title>Front End Development Libraries</title>
-            </head>
-            <body>
-              <h1>Front End Development Libraries</h1>
-              <ul>
-                <li><a href="front-end-development-libraries/build-a-random-quote-machine">Build a Random Quote Machine</a></li>
-              </ul>
-            </body>
-          </html>
-          EOF > gh-pages-upload/index.html
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:
