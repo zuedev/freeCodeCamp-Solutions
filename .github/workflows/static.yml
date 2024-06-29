@@ -40,7 +40,7 @@ jobs:
           mkdir gh-pages-upload
 
           PROJECT_DIRS=(
-            "front-end-development-libraries\build-a-random-quote-machine"
+            "front-end-development-libraries/build-a-random-quote-machine"
           )
 
           for PROJECT_DIR in "${PROJECT_DIRS[@]}"; do
