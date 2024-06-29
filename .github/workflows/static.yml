@@ -48,7 +48,7 @@ jobs:
             npm install
             npm run build
             mkdir -p $ROOT_DIR/gh-pages-upload/$PROJECT_DIR
-            cp -r build $ROOT_DIR/gh-pages-upload/$PROJECT_DIR
+            cp -r build/* $ROOT_DIR/gh-pages-upload/$PROJECT_DIR
             cd $ROOT_DIR
           done
       - name: Upload artifact
