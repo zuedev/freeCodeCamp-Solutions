@@ -33,11 +33,28 @@ jobs:
         uses: actions/checkout@v4
       - name: Setup Pages
         uses: actions/configure-pages@v5
+      - name: Build all projects
+        run: |
+          ROOT_DIR=$(pwd)
+
+          mkdir gh-pages-upload
+
+          PROJECT_DIRS=(
+            "front-end-development-libraries\build-a-random-quote-machine"
+          )
+
+          for PROJECT_DIR in "${PROJECT_DIRS[@]}"; do
+            cd $PROJECT_DIR
+            npm install
+            npm run build
+            cp -r build $ROOT_DIR/gh-pages-upload/$PROJECT_DIR
+            cd $ROOT_DIR
+          done
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:
           # Upload entire repository
-          path: '.'
+          path: gh-pages-upload
       - name: Deploy to GitHub Pages
         id: deployment
         uses: actions/deploy-pages@v4
