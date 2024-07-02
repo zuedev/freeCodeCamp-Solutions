@@ -55,6 +55,7 @@ jobs:
             "data-visualization-projects/visualize-data-with-a-bar-chart"
             "data-visualization-projects/visualize-data-with-a-scatterplot-graph"
             "data-visualization-projects/visualize-data-with-a-heat-map"
+            "data-visualization-projects/visualize-data-with-a-choropleth-map"
           )
 
           for PROJECT_DIR in "${STATIC_PROJECT_DIRS[@]}"; do
