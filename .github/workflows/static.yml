@@ -53,6 +53,7 @@ jobs:
 
           STATIC_PROJECT_DIRS=(
             "data-visualization-projects/visualize-data-with-a-bar-chart"
+            "data-visualization-projects/visualize-data-with-a-scatterplot-graph"
           )
 
           for PROJECT_DIR in "${STATIC_PROJECT_DIRS[@]}"; do
