@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Bar Chart</title>
+    <style>
+      body {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+        margin: 0;
+      }
+      .bar {
+        fill: steelblue;
+      }
+      .axis text {
+        font-size: 12px;
+      }
+      #tooltip {
+        position: absolute;
+        background-color: #fff;
+        padding: 5px;
+        border: 1px solid #ccc;
+        pointer-events: none;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="tooltip" style="display: none"></div>
+    <div id="chart"></div>
+
+    <script src="https://d3js.org/d3.v6.min.js"></script>
+    <script src="https://cdn.freecodecamp.org/testable-projects-fcc/v1/bundle.js"></script>
+    <script src="app.js"></script>
+  </body>
+</html>

@@ -37,17 +37,28 @@ jobs:
         run: |
           ROOT_DIR=$(pwd)
 
-          PROJECT_DIRS=(
+          FRONTEND_LIBRARY_PROJECT_DIRS=(
             "front-end-development-libraries/build-a-random-quote-machine"
             "front-end-development-libraries/build-a-markdown-previewer"
           )
 
-          for PROJECT_DIR in "${PROJECT_DIRS[@]}"; do
+          for PROJECT_DIR in "${FRONTEND_LIBRARY_PROJECT_DIRS[@]}"; do
             cd $PROJECT_DIR
             npm install
             npm run build
             mkdir -p $ROOT_DIR/gh-pages-upload/$PROJECT_DIR
             cp -r build/* $ROOT_DIR/gh-pages-upload/$PROJECT_DIR
+            cd $ROOT_DIR
+          done
+
+          STATIC_PROJECT_DIRS=(
+            "data-visualization-projects/visualize-data-with-a-bar-chart"
+          )
+
+          for PROJECT_DIR in "${STATIC_PROJECT_DIRS[@]}"; do
+            cd $PROJECT_DIR
+            mkdir -p $ROOT_DIR/gh-pages-upload/$PROJECT_DIR
+            cp -r * $ROOT_DIR/gh-pages-upload/$PROJECT_DIR
             cd $ROOT_DIR
           done
       - name: Upload artifact
