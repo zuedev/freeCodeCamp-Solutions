@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>D3 Scatterplot</title>
+    <style>
+      body {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+        margin: 0;
+      }
+      .dot {
+        fill: steelblue;
+        stroke: #333;
+      }
+
+      .axis-label {
+        font-size: 12px;
+      }
+
+      #tooltip {
+        position: absolute;
+        opacity: 0;
+        background-color: lightyellow;
+        padding: 5px;
+        border: 1px solid #ccc;
+      }
+    </style>
+    <script src="https://d3js.org/d3.v6.min.js"></script>
+  </head>
+  <body>
+    <div id="title">Doping in Professional Bicycle Racing</div>
+    <svg width="800" height="600"></svg>
+    <div id="tooltip"></div>
+
+    <script src="https://cdn.freecodecamp.org/testable-projects-fcc/v1/bundle.js"></script>
+    <script>
+      const margin = { top: 50, right: 20, bottom: 50, left: 50 };
+      const width = 800 - margin.left - margin.right;
+      const height = 600 - margin.top - margin.bottom;
+
+      const svg = d3
+        .select("svg")
+        .attr("width", width + margin.left + margin.right)
+        .attr("height", height + margin.top + margin.bottom)
+        .append("g")
+        .attr("transform", `translate(${margin.left},${margin.top})`);
+
+      fetch(
+        "https://raw.githubusercontent.com/freeCodeCamp/ProjectReferenceData/master/cyclist-data.json"
+      )
+        .then((res) => res.json())
+        .then((data) => {
+          const x = d3
+            .scaleLinear()
+            .domain([
+              d3.min(data, (d) => d.Year - 1),
+              d3.max(data, (d) => d.Year + 1),
+            ])
+            .range([0, width]);
+
+          const y = d3
+            .scaleTime()
+            .domain([
+              d3.max(
+                data,
+                (d) =>
+                  new Date(
+                    1970,
+                    0,
+                    1,
+                    0,
+                    Math.floor(d.Seconds / 60),
+                    d.Seconds % 60
+                  )
+              ),
+              d3.min(
+                data,
+                (d) =>
+                  new Date(
+                    1970,
+                    0,
+                    1,
+                    0,
+                    Math.floor(d.Seconds / 60),
+                    d.Seconds % 60
+                  )
+              ),
+            ])
+            .range([height, 0]);
+
+          const xAxis = d3.axisBottom(x).tickFormat(d3.format("d"));
+          const yAxis = d3.axisLeft(y).tickFormat(d3.timeFormat("%M:%S"));
+
+          svg
+            .append("g")
+            .attr("id", "x-axis")
+            .attr("transform", `translate(0, ${height})`)
+            .call(xAxis);
+
+          svg.append("g").attr("id", "y-axis").call(yAxis);
+
+          svg
+            .selectAll(".dot")
+            .data(data)
+            .enter()
+            .append("circle")
+            .attr("class", "dot")
+            .attr("cx", (d) => x(d.Year))
+            .attr("cy", (d) =>
+              y(
+                new Date(
+                  1970,
+                  0,
+                  1,
+                  0,
+                  Math.floor(d.Seconds / 60),
+                  d.Seconds % 60
+                )
+              )
+            )
+            .attr("r", 5)
+            .attr("data-xvalue", (d) => d.Year)
+            .attr(
+              "data-yvalue",
+              (d) =>
+                new Date(
+                  1970,
+                  0,
+                  1,
+                  0,
+                  Math.floor(d.Seconds / 60),
+                  d.Seconds % 60
+                )
+            )
+            .on("mouseover", (event, d) => {
+              d3.select("#tooltip")
+                .style("opacity", 1)
+                .style("left", `${event.pageX + 5}px`)
+                .style("top", `${event.pageY + 5}px`)
+                .html(`Name: ${d.Name}<br>Year: ${d.Year}<br>Time: ${d.Time}`)
+                .attr("data-year", d.Year);
+            })
+            .on("mouseout", () => {
+              d3.select("#tooltip").style("opacity", 0);
+            });
+
+          svg
+            .append("g")
+            .attr("id", "legend")
+            .attr("transform", `translate(${width - 120}, 30)`)
+            .call((g) => g.append("text").text("Legend"));
+        });
+    </script>
+  </body>
+</html>
